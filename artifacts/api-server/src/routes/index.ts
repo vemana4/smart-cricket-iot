@@ -7,6 +7,7 @@ import deliveriesRouter from "./deliveries.js";
 import wicketsRouter from "./wickets.js";
 import dashboardRouter from "./dashboard.js";
 import calibrateRouter from "./calibrate.js";
+import infoRouter from "./info.js";
 
 const router: IRouter = Router();
 
@@ -18,5 +19,6 @@ router.use("/deliveries", deliveriesRouter);
 router.use("/wickets", wicketsRouter);
 router.use("/dashboard", dashboardRouter);
 router.use("/calibrate", calibrateRouter);
+router.use("/info", infoRouter);
 
 export default router;
