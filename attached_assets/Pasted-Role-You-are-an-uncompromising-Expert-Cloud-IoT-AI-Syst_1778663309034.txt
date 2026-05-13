@@ -1,0 +1,40 @@
+Role: You are an uncompromising, Expert Cloud IoT & AI Systems Architect.
+Project: "Project 0338: QuantumPitch AI" – A production-grade Next.js (App Router) backend deployed to Vercel. This is an elite cricket sports analytics platform. It ingests 1-second batched smartwatch IMU data from the Sensor Logger app (Galaxy Watch 6) and physical hardware signals (ESP32 Smart Stump), processes heavy biomechanical physics (XYZ spatial integration), logs to Neon Serverless Postgres, and broadcasts real-time telemetry (Pusher).
+Tech Stack: Next.js App Router (TypeScript), @neondatabase/serverless (Neon DB WebSocket driver), pusher, uuid.
+Architecture & File Structure: > Create a strictly modular, serverless-optimized architecture.
+1. app/api/session/start/route.ts
+2. app/api/telemetry/route.ts
+3. app/api/stump/route.ts
+4. lib/neon.ts (Database initialization & session fetching)
+5. lib/pusher.ts (WebSocket initialization)
+6. lib/physicsEngine.ts (Batch Processing, Integration, ZUPT)
+Core Requirements by File:
+1. State Management & Neon DB (lib/neon.ts)
+* Because Vercel is stateless, the IoT hardware MUST use permanent URLs.
+* Initialize the Neon DB connection using the @neondatabase/serverless driver for zero cold-start latency.
+* Write a fast helper function getActiveSession() that fetches the most recently created, open session_id from the sessions table using raw SQL.
+2. app/api/session/start/route.ts (From Dashboard)
+* Generates a new UUID. Inserts it into the Neon sessions table as the active session.
+* Broadcasts session-started via Pusher. Returns the session_id.
+3. app/api/telemetry/route.ts (From Watch 6 / Sensor Logger)
+* Receives a 1-second batched JSON payload.
+* Constraint: Optimize for Vercel serverless execution. You MUST return NextResponse.json({ status: "received" }, { status: 200 }) immediately to prevent the watch's HTTP push from timing out. Do the following asynchronously.
+* Async Execution Flow: > 1. Pass the raw payload to physicsEngine.ts. 2. If the engine returns null (no ball bowled), exit silently. 3. If valid, fetch the active session via getActiveSession(). 4. Save the delivery to the Neon deliveries table. 5. Broadcast via Pusher channel live-session-0338, event new-ball.
+4. app/api/stump/route.ts (From ESP32)
+* Receives: { status: "out" | "not_out", impact_force: number }.
+* Async Execution Flow: Fetch active session. Save to Neon wickets table. Broadcast event wicket-alert. Return 200 OK immediately.
+5. lib/physicsEngine.ts (The 1-Second Batch Biomechanics)
+* Export function processDelivery(payloadArray).
+* Data Parsing Constraint: The payload comes from Sensor Logger. You MUST filter the array for objects where sensor === "WatchTotalAcceleration". The x, y, z, and seconds_elapsed values are provided as STRINGS. You must parseFloat them before doing any math.
+* Step 1 (Peak Detection): Scan the parsed array to find the highest resultant acceleration (Math.sqrt(x^2 + y^2 + z^2)). If peak is < 29.4 m/s^2 (approx 3G), return null (bowler is just walking).
+* Step 2 (Isolation): Isolate the "Swing Window" by taking the peak index, minus 20 indices (before release), and plus 10 indices (follow-through).
+* Step 3 (Integration): Run Double Integration ONLY on this Swing Window using the seconds_elapsed delta ($\Delta t$). Integrate linear acceleration (subtracting roughly 9.81 from Z to remove gravity) for Velocity, and velocity for 3D Position/Displacement $[x, y, z]$.
+* Step 4 (ZUPT): Apply Zero-Velocity Update logic. If resultant acceleration drops between 9.0 and 10.5 m/s^2 (resting 1G) during the window, reset velocity to 0 to prevent drift.
+* Outputs: Return object: { pace_kmh: (peak resultant accel * 3.6), is_legal: true, trajectory: [[x,y,z], ...] }.
+Database Schema Context (Write Raw SQL queries based on this):
+* sessions: id (uuid), created_at, status (text: 'active'/'closed').
+* deliveries: id (uuid default gen_random_uuid()), session_id, pace_kmh, is_legal, trajectory (jsonb), timestamp.
+* wickets: id (uuid), session_id, status (text), impact_force, timestamp.
+Execution Constraints:
+* Strictly use Next.js NextResponse, TypeScript, and comprehensive try/catch blocks.
+* Provide the full, production-ready code for all files. Do not use placeholders for the integration or SQL logic.
