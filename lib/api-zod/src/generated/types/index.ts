@@ -6,8 +6,7 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export * from "./activeSessionResponse";
-export * from "./closeSessionResponse";
+export * from "./activeSessionResult";
 export * from "./dashboardSummary";
 export * from "./delivery";
 export * from "./healthStatus";
@@ -15,7 +14,8 @@ export * from "./ingestResponse";
 export * from "./listDeliveriesParams";
 export * from "./listWicketsParams";
 export * from "./session";
-export * from "./sessionStartResponse";
+export * from "./sessionCloseResult";
+export * from "./sessionStartResult";
 export * from "./stumpPayload";
 export * from "./stumpPayloadStatus";
 export * from "./telemetryPayload";

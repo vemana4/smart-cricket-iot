@@ -5,8 +5,7 @@
  * QuantumPitch AI – Cricket Analytics API
  * OpenAPI spec version: 0.1.0
  */
-import type { Session } from "./session";
 
-export interface ActiveSessionResponse {
-  session: Session | null;
+export interface SessionCloseResult {
+  success: boolean;
 }

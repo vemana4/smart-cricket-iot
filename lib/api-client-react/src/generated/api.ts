@@ -17,15 +17,15 @@ import type {
 } from "@tanstack/react-query";
 
 import type {
-  ActiveSessionResponse,
-  CloseSessionResponse,
+  ActiveSessionResult,
   DashboardSummary,
   Delivery,
   HealthStatus,
   IngestResponse,
   ListDeliveriesParams,
   ListWicketsParams,
-  SessionStartResponse,
+  SessionCloseResult,
+  SessionStartResult,
   StumpPayload,
   TelemetryPayload,
   Wicket,
@@ -124,8 +124,8 @@ export const getStartSessionUrl = () => {
 
 export const startSession = async (
   options?: RequestInit,
-): Promise<SessionStartResponse> => {
-  return customFetch<SessionStartResponse>(getStartSessionUrl(), {
+): Promise<SessionStartResult> => {
+  return customFetch<SessionStartResult>(getStartSessionUrl(), {
     ...options,
     method: "POST",
   });
@@ -205,8 +205,8 @@ export const getGetActiveSessionUrl = () => {
 
 export const getActiveSession = async (
   options?: RequestInit,
-): Promise<ActiveSessionResponse> => {
-  return customFetch<ActiveSessionResponse>(getGetActiveSessionUrl(), {
+): Promise<ActiveSessionResult> => {
+  return customFetch<ActiveSessionResult>(getGetActiveSessionUrl(), {
     ...options,
     method: "GET",
   });
@@ -281,8 +281,8 @@ export const getCloseSessionUrl = (sessionId: string) => {
 export const closeSession = async (
   sessionId: string,
   options?: RequestInit,
-): Promise<CloseSessionResponse> => {
-  return customFetch<CloseSessionResponse>(getCloseSessionUrl(sessionId), {
+): Promise<SessionCloseResult> => {
+  return customFetch<SessionCloseResult>(getCloseSessionUrl(sessionId), {
     ...options,
     method: "POST",
   });

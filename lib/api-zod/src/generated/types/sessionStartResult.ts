@@ -6,7 +6,7 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export interface SessionStartResponse {
+export interface SessionStartResult {
   session_id: string;
   created_at: string;
 }

@@ -1,4 +1,4 @@
-modules = ["nodejs-24"]
+modules = ["nodejs-24", "postgresql-16"]
 
 [deployment]
 router = "application"
@@ -26,3 +26,15 @@ externalPort = 8080
 [[ports]]
 localPort = 8081
 externalPort = 80
+
+[[ports]]
+localPort = 21550
+externalPort = 3000
+
+[userenv]
+
+[userenv.shared]
+DATABASE_URL = "postgresql://neondb_owner:npg_caKJf46ipwXe@ep-withered-snow-aqxaodb1-pooler.c-8.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+
+[nix]
+channel = "stable-25_05"

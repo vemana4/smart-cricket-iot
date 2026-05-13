@@ -47,7 +47,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SessionStartResponse"
+                $ref: "#/components/schemas/SessionStartResult"
 
   /session/active:
     get:
@@ -60,7 +60,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ActiveSessionResponse"
+                $ref: "#/components/schemas/ActiveSessionResult"
 
   /session/{sessionId}/close:
     post:
@@ -79,7 +79,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CloseSessionResponse"
+                $ref: "#/components/schemas/SessionCloseResult"
 
   /telemetry:
     post:
@@ -188,7 +188,7 @@ components:
           type: string
       required: [status]
 
-    SessionStartResponse:
+    SessionStartResult:
       type: object
       properties:
         session_id:
@@ -197,7 +197,7 @@ components:
           type: string
       required: [session_id, created_at]
 
-    ActiveSessionResponse:
+    ActiveSessionResult:
       type: object
       properties:
         session:
@@ -205,7 +205,7 @@ components:
           nullable: true
       required: [session]
 
-    CloseSessionResponse:
+    SessionCloseResult:
       type: object
       properties:
         success:

@@ -9,7 +9,7 @@ export interface HealthStatus {
   status: string;
 }
 
-export interface SessionStartResponse {
+export interface SessionStartResult {
   session_id: string;
   created_at: string;
 }
@@ -20,11 +20,11 @@ export interface Session {
   status: string;
 }
 
-export interface ActiveSessionResponse {
+export interface ActiveSessionResult {
   session: Session | null;
 }
 
-export interface CloseSessionResponse {
+export interface SessionCloseResult {
   success: boolean;
 }
 
