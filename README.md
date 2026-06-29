@@ -24,6 +24,16 @@ Finally, the processed analytics are streamed to a high-performance React-based 
 - **📋 Session Management** — Track practice sessions, match innings, and historical delivery data
 - **🏏 Delivery Analytics** — Classify deliveries by speed, swing, seam, and bounce characteristics
 
+### 📊 Feature Capability Matrix
+
+| Feature | Component | Ingestion Latency | Data Processing | Primary User |
+| :--- | :--- | :--- | :--- | :--- |
+| **Real-Time Telemetry** | `esp32/` | < 50ms | Raw Sensor Stream (SPI/I2C) | Hardware Dev / Coach |
+| **Physics Engine** | `api-server/` | < 100ms | Trajectory Vector Reconstruction | Analyst / Coach |
+| **Wicket Detection** | `api-server/` | < 10ms | Event Ingestion & Pusher Event | Broadcaster / Umpire |
+| **Quantum Dashboard** | `quantum-pitch/` | < 150ms | WebGL 3D Visualization | Player / Coach |
+| **Device Calibration** | `api-server/` | < 200ms | Sensor Offset Ingestion | Hardware Technician |
+
 ---
 
 ## 🏗️ System Architecture
@@ -46,7 +56,7 @@ Finally, the processed analytics are streamed to a high-performance React-based 
 ## 📁 Project Structure
 
 ```
-smart-cricket-iot/
+iot-cricket-analytics/
 ├── esp32/
 │   └── cricket_stump.ino        # Arduino firmware for ESP32
 │
@@ -104,8 +114,8 @@ smart-cricket-iot/
 
 ```bash
 # Clone the repository
-git clone https://github.com/vemana4/smart-cricket-iot.git
-cd smart-cricket-iot
+git clone https://github.com/vemana4/iot-cricket-analytics.git
+cd iot-cricket-analytics
 
 # Install dependencies
 pnpm install
